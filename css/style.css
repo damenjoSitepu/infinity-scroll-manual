@@ -1,0 +1,49 @@
+.animation {
+  height: 70px;
+  background: white;
+  background: linear-gradient(328deg, white 26%, #ff0041 76%);
+  width: 70px;
+  margin: auto;
+  border-radius: 50%;
+  position: relative;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  -webkit-animation: animation .5s infinite ease-in;
+          animation: animation .5s infinite ease-in;
+}
+
+.animation::after {
+  content: '';
+  position: absolute;
+  top: 4%;
+  left: 4%;
+  right: 4%;
+  bottom: 4%;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+@-webkit-keyframes animation {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes animation {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+/*# sourceMappingURL=style.css.map */

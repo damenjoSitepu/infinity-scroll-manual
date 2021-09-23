@@ -1,0 +1,37 @@
+.animation {
+    height: 70px;
+    background: rgb(255,255,255);
+    background: linear-gradient(328deg, rgba(255,255,255,1) 26%, rgba(255,0,65,1) 76%);
+    width: 70px;
+    margin: auto;
+    border-radius: 50%;
+    position: relative;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    transform: rotate(0deg);
+    animation: animation .5s infinite ease-in;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 4%;
+        left: 4%;
+        right: 4%;
+        bottom: 4%;
+        background-color: #fff;
+        border-radius: 50%;
+    }
+}
+
+@keyframes animation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+
+    100% {
+        transform: rotate(360deg);
+    }
+
+ 
+}
