@@ -2,11 +2,14 @@ $(document).ready(function () {
     // Saat Refresh, Paksa position halaman ke bagian teratas halaman.
     restorePageBackToTheTop();
 
+    // konstanta file path atau url
+    const FILE_PATH = '../dataRobot.json'
+
     let start = 0;
     let working = false;
 
     // Menampilkan konten card default saat pertama kali ada
-    showDefaultData('../dataRobot.json', 10);
+    showDefaultData(FILE_PATH, 10);
 
     // Event Scroll Mode
     window.addEventListener('scroll', function () {
@@ -16,43 +19,44 @@ $(document).ready(function () {
                 working = true;
 
                 // Ajax
-                let xhr = new XMLHttpRequest();
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-
-                        // Script Jangan Dimanipulasi Lagi
-                        let data = JSON.parse(this.responseText);
-
-                        if (start < data.machina.length) {
-                            $(".animations").toggleClass('animation');
-                            setTimeout(() => {
-                                $(".animations").toggleClass('animation');
-
-                                // Untuk mendapatkan jumlah sisa baris yang masih belum ditampilkan.
-                                let checkMoreAdd = (data.machina.length - start) > 10 ? 10 : (data.machina.length - start);
-                                // Untuk menjadi indeks awal satuan data yang akan ditampilkan secara berulang.
-                                let incrementCond = data.machina.length <= 10 ? data.machina.length : start + checkMoreAdd;
-
-                                // Render content data selanjutnya setelah content default.
-                                renderNextUI(data, start, incrementCond);
-                                start += checkMoreAdd;
-
-                                setTimeout(function () {
-                                    working = false;
-                                }, 500);
-                            }, 2000);
-                        }
-                        // Script Jangan Dimanipulasi Lagi
-
-                    }
-                }
-
-                xhr.open('GET', '../dataRobot.json');
-                xhr.send();
+                fetch(FILE_PATH)
+                    .then(errorGuard)
+                    .then(displayDataMachina)
+                    .catch(error => console.log(error))
             }
         }
     });
+
+
+    // ini logicnya jo jgn di otak otik
+    function displayDataMachina(data){
+        if (start < data.machina.length) {
+            $(".animations").toggleClass('animation');
+            setTimeout(() => {
+                $(".animations").toggleClass('animation');
+
+                // Untuk mendapatkan jumlah sisa baris yang masih belum ditampilkan.
+                let checkMoreAdd = (data.machina.length - start) > 10 ? 10 : (data.machina.length - start);
+                // Untuk menjadi indeks awal satuan data yang akan ditampilkan secara berulang.
+                let incrementCond = data.machina.length <= 10 ? data.machina.length : start + checkMoreAdd;
+
+                // Render content data selanjutnya setelah content default.
+                renderNextUI(data, start, incrementCond);
+                start += checkMoreAdd;
+
+                setTimeout(function () {
+                    working = false;
+                }, 500);
+            }, 2000);
+        } 
+    }
+
+    // ini pelindung dari error "json is not a function bla... bla.. bla..."
+    function errorGuard(resp){
+        if(resp.status != 200) throw new Error(resp.status)
+
+        return resp.json()
+    }
 
 
     function restorePageBackToTheTop() {
@@ -66,26 +70,17 @@ $(document).ready(function () {
     }
 
     function showDefaultData(filePath, defaultShow) {
-        let xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-
-                // Jangan Manipulasi Script Ini
-                let myData = this.responseText;
-                let realData = JSON.parse(myData);
-
+        fetch(filePath)
+            .then(errorGuard)
+            .then(realData => {
+                // render UI uhuyyyy
                 renderDefaultUI(realData.machina, defaultShow);
-
+        
                 // Posisi memberitahu jumlah data yang sudah ditampilkan saat ini
                 start += realData.machina.length <= defaultShow ? realData.machina.length : defaultShow;
-                // Jangan Manipulasi Script Ini
 
-            }
-        }
-
-        xhr.open('GET', filePath);
-        xhr.send();
+            })
+            .catch(error => console.log(error))
     }
 
     // Render UI Content
