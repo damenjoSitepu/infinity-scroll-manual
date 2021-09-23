@@ -9,7 +9,7 @@ $(document).ready(function () {
     let working = false;
 
     // Menampilkan konten card default saat pertama kali ada
-    showDefaultData(FILE_PATH, 10);
+    showDefaultData(FILE_PATH, 5);
 
     // Event Scroll Mode
     window.addEventListener('scroll', function () {
@@ -21,7 +21,7 @@ $(document).ready(function () {
                 // Ajax
                 fetch(FILE_PATH)
                     .then(errorGuard)
-                    .then(displayDataMachina)
+                    .then(response => displayDataMachina(response, 5))
                     .catch(error => console.log(error))
             }
         }
@@ -29,16 +29,16 @@ $(document).ready(function () {
 
 
     // ini logicnya jo jgn di otak otik
-    function displayDataMachina(data){
+    function displayDataMachina(data, rowDefault = 10) {
         if (start < data.machina.length) {
             $(".animations").toggleClass('animation');
             setTimeout(() => {
                 $(".animations").toggleClass('animation');
 
                 // Untuk mendapatkan jumlah sisa baris yang masih belum ditampilkan.
-                let checkMoreAdd = (data.machina.length - start) > 10 ? 10 : (data.machina.length - start);
+                let checkMoreAdd = (data.machina.length - start) > rowDefault ? rowDefault : (data.machina.length - start);
                 // Untuk menjadi indeks awal satuan data yang akan ditampilkan secara berulang.
-                let incrementCond = data.machina.length <= 10 ? data.machina.length : start + checkMoreAdd;
+                let incrementCond = data.machina.length <= rowDefault ? data.machina.length : start + checkMoreAdd;
 
                 // Render content data selanjutnya setelah content default.
                 renderNextUI(data, start, incrementCond);
@@ -48,12 +48,12 @@ $(document).ready(function () {
                     working = false;
                 }, 500);
             }, 2000);
-        } 
+        }
     }
 
     // ini pelindung dari error "json is not a function bla... bla.. bla..."
-    function errorGuard(resp){
-        if(resp.status != 200) throw new Error(resp.status)
+    function errorGuard(resp) {
+        if (resp.status != 200) throw new Error(resp.status)
 
         return resp.json()
     }
@@ -75,7 +75,7 @@ $(document).ready(function () {
             .then(realData => {
                 // render UI uhuyyyy
                 renderDefaultUI(realData.machina, defaultShow);
-        
+
                 // Posisi memberitahu jumlah data yang sudah ditampilkan saat ini
                 start += realData.machina.length <= defaultShow ? realData.machina.length : defaultShow;
 
