@@ -8,19 +8,30 @@
   position: relative;
   margin-top: 5%;
   margin-bottom: 5%;
-  -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
   -webkit-animation: animation .5s infinite linear;
           animation: animation .5s infinite linear;
+  z-index: 10;
+}
+
+.animation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ff0041;
+  border-radius: 50%;
+  opacity: .2;
 }
 
 .animation::after {
   content: '';
   position: absolute;
-  top: 6%;
-  left: 6%;
-  right: 6%;
-  bottom: 6%;
+  top: 8%;
+  left: 8%;
+  right: 8%;
+  bottom: 8%;
   background-color: #fff;
   border-radius: 50%;
 }
@@ -30,15 +41,6 @@
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
     background: linear-gradient(328deg, white 26%, #ff0041 76%);
-  }
-  25% {
-    background: linear-gradient(328deg, white 26%, #fd5680 76%);
-  }
-  50% {
-    background: linear-gradient(328deg, white 26%, #ff0041 76%);
-  }
-  75% {
-    background: linear-gradient(328deg, white 26%, #fd5680 76%);
   }
   100% {
     -webkit-transform: rotate(360deg);
@@ -52,15 +54,6 @@
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
     background: linear-gradient(328deg, white 26%, #ff0041 76%);
-  }
-  25% {
-    background: linear-gradient(328deg, white 26%, #fd5680 76%);
-  }
-  50% {
-    background: linear-gradient(328deg, white 26%, #ff0041 76%);
-  }
-  75% {
-    background: linear-gradient(328deg, white 26%, #fd5680 76%);
   }
   100% {
     -webkit-transform: rotate(360deg);
