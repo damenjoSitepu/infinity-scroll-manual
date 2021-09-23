@@ -9,15 +9,15 @@
     margin-top: 5%;
     margin-bottom: 5%;
     transform: rotate(0deg);
-    animation: animation .5s infinite ease-in;
+    animation: animation .5s infinite linear;
 
     &::after {
         content: '';
         position: absolute;
-        top: 4%;
-        left: 4%;
-        right: 4%;
-        bottom: 4%;
+        top: 6%;
+        left: 6%;
+        right: 6%;
+        bottom: 6%;
         background-color: #fff;
         border-radius: 50%;
     }
@@ -26,12 +26,23 @@
 @keyframes animation {
     0% {
         transform: rotate(0deg);
+        background: linear-gradient(328deg, rgba(255,255,255,1) 26%, rgba(255,0,65,1) 76%);
     }
 
+    25% {
+        background: linear-gradient(328deg, rgba(255,255,255,1) 26%, rgb(253, 86, 128) 76%);
+    }
+
+    50% {
+        background: linear-gradient(328deg, rgba(255,255,255,1) 26%, rgba(255,0,65,1) 76%);
+    }
+
+    75% {
+        background: linear-gradient(328deg, rgba(255,255,255,1) 26%, rgb(253, 86, 128) 76%);
+    }
 
     100% {
         transform: rotate(360deg);
+        background: linear-gradient(328deg, rgba(255,255,255,1) 26%, rgba(255,0,65,1) 76%);
     }
-
- 
 }
